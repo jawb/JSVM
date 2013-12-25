@@ -1,0 +1,74 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Js - Virtual Machine</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script type="text/javascript" src="js/vm.js"></script>
+    </head>
+    <body>
+        <div class="container">
+          <div class="header">
+            <h3 class="text-muted">JSVM</h3>
+          </div>
+
+          <div class="jumbotron">
+            <h1>Javascript virtual machine</h1>
+            <div id="filedrag" class="bs">Drop file here</div>
+            <div id="control" class="bs">
+              <div class="row">
+                <div class="col-xs-12 col-md-12">
+                <div class="btn-group btn-group-lg">
+                  <button id="executeOne" type="button" class="btn btn-default" title="Execute one step"><i class="glyphicon glyphicon-play"></i></button>
+                  <button id="executeAll" type="button" class="btn btn-info" title="Execute all"><i class="glyphicon glyphicon-forward"></i></button>
+                  <button id="executePause" type="button" class="btn btn-warning" title="Pause"><i class="glyphicon glyphicon-pause"></i></button>
+                  <button id="executeStop" type="button" class="btn btn-danger" title="Stop"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-md-12">
+                  <fieldset>
+                    <legend>Symbol table</legend>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Variable</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tblsymb"></tbody>
+                    </table>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <fieldset>
+                    <legend>Code</legend>
+                    <ul class="list-unstyled" id="code"></ul>
+                  </fieldset>
+                </div>
+                <div class="col-xs-12 col-md-6" id="stack">
+                  <fieldset>
+                    <legend>Stack</legend>
+                    <ul></ul>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="row" id="console"> &gt; </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <p>© JSVM 2013</p>
+          </div>
+        </div>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    </body>
+</html>
