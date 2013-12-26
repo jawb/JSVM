@@ -43,6 +43,7 @@ VM.onReset = function () {
     code.empty();
     stack.empty();
     tblsymb.empty();
+    myConsole.html(" &gt; ");
 };
 
 VM.print = function (str) {
