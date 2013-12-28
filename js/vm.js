@@ -4,7 +4,7 @@ var VM = {
     stack:   [],
     code:    [],
     pc:      0,
-
+    
 
     onStackPush: function (arg) {},
     onStackPop: function () {},
@@ -16,6 +16,13 @@ var VM = {
     print: function (str) {},
     read: function () {},
 
+
+    to32f: function (arg) {
+        var buffer = new ArrayBuffer(4);
+        var _float = new Float32Array(buffer);
+        _float[0] = arg;
+        return _float[0];
+    },
 
     reset: function () {
         this.tblsymb = {};
@@ -62,7 +69,9 @@ var VM = {
             }
             else {
                 var inst = contents[i].split(" ");
-                if (inst[0] == "PUSH") inst[1] = parseFloat(inst[1]);
+                if (~["PUSH", "RAS", "RBS", "LS"].indexOf(inst[0])) {
+                    inst[1] = this.to32f(parseFloat(inst[1]));
+                }
                 var op = {
                     op  : inst[0],
                     arg : inst[1]
@@ -144,24 +153,42 @@ var VM = {
             case "AND":
                 var value1 = this.stackPop();
                 var value2 = this.stackPop();
-                this.stackPush((value1 && value2) + 0);
+                this.stackPush(value1 & value2);
                 break;
 
             case "OR":
                 var value1 = this.stackPop();
                 var value2 = this.stackPop();
-                this.stackPush((value1 || value2) + 0);
+                this.stackPush(value1 | value2);
                 break;
 
             case "XOR":
                 var value1 = this.stackPop();
                 var value2 = this.stackPop();
-                this.stackPush((value1 ^ value2) + 0);
+                this.stackPush(value1 ^ value2);
                 break;
 
             case "NOT":
                 var value1 = this.stackPop();
-                this.stackPush(!value1+0);
+                this.stackPush(~value1);
+                break;
+
+            case "RAS":
+                var value1 = this.stackPop();
+                value1 >>= arg;
+                this.stackPush(value1);
+                break;
+
+            case "RBS":
+                var value1 = this.stackPop();
+                value1 >>>= arg;
+                this.stackPush(value1);
+                break;
+
+            case "LS":
+                var value1 = this.stackPop();
+                value1 <<= arg;
+                this.stackPush(value1);
                 break;
 
             case "LT":
@@ -199,7 +226,7 @@ var VM = {
                 break;
 
             case "PRINTN":
-                this.print(this.stackPop()+"");
+                this.print(this.stackPop().toString(10));
                 break;
 
             case "READ":
@@ -213,7 +240,7 @@ var VM = {
                 break;
 
             case "READN":
-                var input = parseFloat(this.read());
+                var input = this.to32f(parseFloat(this.read()));
                 this.stackPush(input);
                 break;
         }
