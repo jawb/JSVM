@@ -8,9 +8,10 @@ var myConsole = $("#console");
 var reader = new FileReader();
 reader.onloadend = function(e) {
     if (e.target.readyState == FileReader.DONE) {
-        VM.loadFile(e.target.result, function (contents) {
-            contents.forEach(function (line) {
-                code.append('<li class="text-muted">'+line+'</li>')
+        VM.loadFile(e.target.result, function (contents, labels) {
+            console.log(labels);
+            contents.forEach(function (line, i) {
+                code.append('<tr class="text-muted"><td>'+((!!labels[i])?labels[i]:"")+'</td><td>'+line+'</td></tr>');
             });
             filedrag.hide();
             control.show();
@@ -35,8 +36,8 @@ VM.onTsStore = function (i, val) {
 };
 
 VM.onPcUpdate = function (pc) {
-    code.find('li').removeClass('current-code');
-    code.find(':nth-child('+pc+')').addClass('current-code');
+    code.find('tr').removeClass('current-code');
+    code.find('tr:nth-child('+pc+')').addClass('current-code');
 };
 
 VM.onReset = function () {

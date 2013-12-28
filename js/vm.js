@@ -3,6 +3,7 @@ var VM = {
     tblsymb: {},
     stack:   [],
     code:    [],
+    labels:  {},
     pc:      0,
     
 
@@ -28,6 +29,7 @@ var VM = {
         this.tblsymb = {};
         this.stack = [];
         this.code = [];
+        this.labels = {};
         this.pc = 0;
         this.onReset();
     },
@@ -58,42 +60,47 @@ var VM = {
         this.reset();
         var contents = string.split("\n");
         contents = contents.filter(function (el) {return el != "";});
-        for (var i=0, l=contents.length; i<l; ++i) {
+        var j = 0;
+        var lines = [];
+        var that = this;
+        var labels = [];
+        contents.forEach(function (line) {
             var regex = /[a-zA-Z_0-9]*:/g;
-            if (regex.test(contents[i])) {
-                var op = {
-                    op  : "LABEL",
-                    arg : contents[i].substring(0, contents[i].length-1)
-                }
-                this.code.push(op);
+            if (regex.test(line)) {
+                var label = line.substring(0, line.length-1);
+                labels[j] = label;
+                that.labels[label] = j;
             }
             else {
-                var inst = contents[i].split(" ");
+                var inst = line.split(" ");
                 if (~["PUSH", "RAS", "RBS", "LS"].indexOf(inst[0])) {
-                    inst[1] = this.to32f(parseFloat(inst[1]));
+                    inst[1] = that.to32f(parseFloat(inst[1]));
                 }
                 var op = {
                     op  : inst[0],
                     arg : inst[1]
                 }
-                this.code.push(op);
+                ++j;
+                lines.push(line);
+                that.code.push(op);
             }
-        }
-        callback(contents);
+        });
+        callback(lines, labels);
     },
 
     jumpTo: function (label) {
-        for (var i=0, l=this.code.length; i<l; ++i) {
-            if (this.code[i].op == "LABEL" && this.code[i].arg == label) {
-                this.pc = i;
-            }
-        }
+        this.pc = this.labels[label] - 1;
+        console.log("Jumped to "+this.pc);
     },
 
     executeOne: function() {
+        
+        if (this.pc == this.code.length) return false;
 
         var arg = this.code[this.pc].arg;
         var ts  = this.tblsymb;
+
+        console.log("Execute", this.pc, this.code[this.pc]);
 
         switch (this.code[this.pc].op) {
 
@@ -226,7 +233,7 @@ var VM = {
                 break;
 
             case "PRINTN":
-                this.print(this.stackPop().toString(10));
+                this.print(this.stackPop()+"");
                 break;
 
             case "READ":
@@ -244,11 +251,9 @@ var VM = {
                 this.stackPush(input);
                 break;
         }
-        if (this.pc < this.code.length-1) {
-            ++this.pc;
-            this.onPcUpdate(this.pc);
-        }
-        else return false;
+
+        ++this.pc;
+        this.onPcUpdate(this.pc);
     }
 
 }
