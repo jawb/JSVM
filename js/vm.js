@@ -153,6 +153,12 @@ var VM = {
                 this.stackPush((value1 || value2) + 0);
                 break;
 
+            case "XOR":
+                var value1 = this.stackPop();
+                var value2 = this.stackPop();
+                this.stackPush((value1 ^ value2) + 0);
+                break;
+
             case "NOT":
                 var value1 = this.stackPop();
                 this.stackPush(!value1+0);
