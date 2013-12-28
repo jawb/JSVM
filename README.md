@@ -19,7 +19,11 @@ Javascript virtual machine is one instruction set machine to parse and execute a
 | MOD         | -        | Remainder                                      |
 | AND         | -        | And                                            |
 | OR          | -        | Or                                             |
+| XOR         | -        | Exclusive or                                   |
 | Not         | -        | Ones' complement                               |
+| RAS         | -        | Right arithmetic shift                         |
+| RBS         | -        | Right binary shift                             |
+| LS          | -        | Left shift                                     |
 | LT          | -        | Lower than                                     |
 | LE          | -        | Lower or equal to                              |
 | JMP         | #Label   | Unconditional jump to label                    |
