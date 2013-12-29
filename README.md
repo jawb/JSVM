@@ -7,7 +7,7 @@ Javascript virtual machine is one instruction set machine to parse and execute a
 | Instruction | Argument | Description                                    |
 | ------------|:--------:| :----------------------------------------------|
 | #String:    | -        | Define label                                   |
-| PUSH        | #Number  | Push a number to the stack                     |
+| PUSH        | #Number  | Push a number to the stack (32bit)             |
 | POP         | -        | Pop from stack                                 |
 | DATA        | #String  | Define variable with name                      |
 | STORE       | #String  | Put head in variable                           |
@@ -21,9 +21,9 @@ Javascript virtual machine is one instruction set machine to parse and execute a
 | OR          | -        | Or                                             |
 | XOR         | -        | Exclusive or                                   |
 | Not         | -        | Ones' complement                               |
-| RAS         | -        | Right arithmetic shift                         |
-| RBS         | -        | Right binary shift                             |
-| LS          | -        | Left shift                                     |
+| RAS         |#Number<32| Right arithmetic shift                         |
+| RBS         |#Number<32| Right binary shift                             |
+| LS          |#Number<32| Left shift                                     |
 | LT          | -        | Lower than                                     |
 | LE          | -        | Lower or equal to                              |
 | JMP         | #Label   | Unconditional jump to label                    |
@@ -32,7 +32,7 @@ Javascript virtual machine is one instruction set machine to parse and execute a
 | PRINT       | -        | Print integers in stack as characters until \0 |
 | PRINTN      | -        | Print number head of stack                     |
 | READ        | -        | Read string and push it to stack               |
-| READN       | -        | Read number and push it to stack               |
+| READN       | -        | Read number (32bit) and push it to stack       |
   
 
 ##2. Features
@@ -45,9 +45,10 @@ Javascript virtual machine is one instruction set machine to parse and execute a
 
 ##3. Todo
 
-- Tests
-- More tests
+- Tests and fixes
 - Add more instructions
+- Add a framebuffer
 - Better strings support
+- Older browsers support
 
 Enjoy !
